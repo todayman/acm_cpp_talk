@@ -7,14 +7,16 @@ CXXFLAGS=-std=c++11 -stdlib=libc++ -g
 LD=$(CXX)
 LDFLAGS=-stdlib=libc++ -lc++abi
 
-TARGETS=printf
+TARGETS=printf io raii
 
 all: $(TARGETS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $*.cpp
-printf: printf.o
-	$(LD) $(LDFLAGS) printf.o -o printf
+%: %.o
+	$(LD) $(LDFLAGS) $*.o -o $*
+#printf: printf.o
+#	$(LD) $(LDFLAGS) printf.o -o printf
 
 .PHONY: clean
 clean:
