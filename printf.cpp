@@ -15,7 +15,18 @@ namespace acm
             std::cerr << "format = " << format;
             throw std::runtime_error("Provided integer for another format specifier");
         }
-        std::printf("%d", val);
+        std::printf("(An Integer!) %d", val);
+        acm::printf(format + 1, args...);
+    }
+
+    template<typename... MoreArgs>
+    void printf_arg(const char * format, double val, MoreArgs... args)
+    {
+        if( format[0] != 'f' ) {
+            std::cerr << "format = " << format;
+            throw std::runtime_error("Provided integer for another format specifier");
+        }
+        std::printf("(A double!) %f", val);
         acm::printf(format + 1, args...);
     }
 
@@ -44,5 +55,6 @@ namespace acm
 
 int main()
 {
-    acm::printf("Number %d\n", 5);
+    acm::printf("Integer %d\n", 5);
+    acm::printf("Double %f\n", 5.0);
 }
