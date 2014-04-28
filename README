@@ -1,0 +1,4 @@
+C++ Examples for Paul O'Neil's JHU ACM talk
+
+The {io,printf,raii}.cpp files are the ones that I prepared beforehand.
+The {meeting,raii_shell}.cpp files are the ones we wrote during the talk.
