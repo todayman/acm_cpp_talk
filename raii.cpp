@@ -2,12 +2,12 @@
 
 void take_lock()
 {
-    std::cout << "Taking a lock on a really big resource!\n";
+    std::cout << "\tTaking a lock on a really big resource!\n";
 }
 
 void release_lock()
 {
-    std::cout << "Releasing the lock on an the BIG resource\n";
+    std::cout << "\tReleasing the lock on an the BIG resource\n";
 }
 
 struct Lock
@@ -18,6 +18,13 @@ struct Lock
         take_lock();
         have_lock = true;
     }
+    /*Lock(const Lock&) = delete;
+    Lock(Lock && other)
+    {
+        std::cout << "Stealing the lock!\n";
+        other.have_lock = false;
+        have_lock = true;
+    }*/
 
     ~Lock()
     {
@@ -29,6 +36,7 @@ struct Lock
 };
 
 double get_value_from_db() {
+    std::cout << "Reading the DB\n";
     return 4; // See http://xkcd.com/221/
 }
 
@@ -42,6 +50,15 @@ void save_result_to_db(double result)
 {
     throw std::runtime_error("Oh no!  Saving the result failed!");
     std::cout << "writng the result (" << result << ") to stdout\n";
+}
+
+Lock lock_factory()
+{
+    Lock l;
+    return l;
+
+    Lock another;
+    return another;
 }
 
 int main()
@@ -84,6 +101,29 @@ int main()
     {
         std::cout << "Caught exception: " << exp.what() << "\n";
     }
+
+
+
+    std::cout << "\n\n**************\nIndustrializing (Using a factory):\n\n";
+    try {
+        double work;
+        {
+            Lock l = lock_factory();
+            work = get_value_from_db();
+        }
+    
+        work = do_lots_of_work(work);
+    
+        {
+            Lock l = lock_factory();
+            save_result_to_db(work);
+        }
+    }
+    catch( std::exception& exp)
+    {
+        std::cout << "Caught exception: " << exp.what() << "\n";
+    }
+
 
     return 0;
 }

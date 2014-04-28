@@ -7,7 +7,7 @@ CXXFLAGS=-std=c++11 -stdlib=libc++ -g
 LD=$(CXX)
 LDFLAGS=-stdlib=libc++ -lc++abi
 
-TARGETS=printf io raii
+TARGETS=printf io raii raii_shell
 
 all: $(TARGETS)
 
